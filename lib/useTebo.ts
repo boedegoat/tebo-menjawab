@@ -45,18 +45,14 @@ export default function useTebo(petitionText) {
       // if showAnswer true, freeze the inputs
       if (showAnswer) return
       if (e.key === '.') {
-        if (answerMode) {
-          setPetition(prevPetition => prevPetition + (petitionText[prevPetition.length] || ''))
-          return
-        }
-        setAnswerMode(true)
+        setAnswerMode(!answerMode)
       }
 
       if (!answerMode) return
       // if answerMode is true
 
       // if key is a character
-      if (e.key.length === 1) {
+      if (e.key.length === 1 && e.key !== '.') {
         // add it to the answer
         setAnswer(prevAnswer => prevAnswer + e.key)
       }
@@ -75,7 +71,7 @@ export default function useTebo(petitionText) {
       if (showAnswer) return
       // if not in answerMode, set petition to exactly what user typed
       if (!answerMode) {
-        setPetition(e.target.value)
+        setPetition(e.target.value.replace('.', ''))
         return
       }
     },
