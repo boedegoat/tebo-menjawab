@@ -1,6 +1,6 @@
 import useTebo from '../lib/useTebo'
 
-const petitionText = 'Tebo silakan jawab pertanyaan ini'
+const petitionText = 'Tebo silahkan jawab pertanyaan ini'
 const invalidText = [
   'Tebo sepertinya belom mau menjawab',
   'Kata tebo mupengg',

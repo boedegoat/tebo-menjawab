@@ -32,12 +32,18 @@ export default function useTebo(petitionText) {
 
   const questionProps = {
     value: question,
-    onChange: e => setQuestion(e.target.value),
+    onChange: e => {
+      // if showAnswer true, freeze the inputs
+      if (showAnswer) return
+      setQuestion(e.target.value)
+    },
   }
 
   const petitionProps = {
     value: petition,
     onKeyDown: e => {
+      // if showAnswer true, freeze the inputs
+      if (showAnswer) return
       if (e.key === '.') {
         if (answerMode) {
           setPetition(prevPetition => prevPetition + (petitionText[prevPetition.length] || ''))
@@ -65,6 +71,8 @@ export default function useTebo(petitionText) {
       }
     },
     onChange: e => {
+      // if showAnswer true, freeze the inputs
+      if (showAnswer) return
       // if not in answerMode, set petition to exactly what user typed
       if (!answerMode) {
         setPetition(e.target.value)
