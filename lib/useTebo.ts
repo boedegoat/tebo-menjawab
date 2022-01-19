@@ -19,8 +19,15 @@ export default function useTebo(petitionText) {
     if (!answerMode) return
     console.clear()
     console.log({ jawaban: answer })
-    const newPetition = answer ? petitionText.slice(0, answer.length + 1) : petitionText[0]
-    setPetition(newPetition)
+    setPetition(prevPetition => {
+      let newPetition: string
+      if (prevPetition.length - 1 <= answer.length) {
+        newPetition = answer ? petitionText.slice(0, answer.length + 1) : petitionText[0]
+      } else {
+        newPetition = prevPetition.slice(0, -1)
+      }
+      return newPetition
+    })
   }, [answer, answerMode])
 
   const questionProps = {
@@ -33,7 +40,7 @@ export default function useTebo(petitionText) {
     onKeyDown: e => {
       if (e.key === '.') {
         if (answerMode) {
-          setPetition(prevPetition => prevPetition + petitionText[prevPetition.length])
+          setPetition(prevPetition => prevPetition + (petitionText[prevPetition.length] || ''))
           return
         }
         setAnswerMode(true)
@@ -49,6 +56,10 @@ export default function useTebo(petitionText) {
       }
       // if key is backspace
       if (e.key === 'Backspace') {
+        if (!answer) {
+          setPetition(prevPetition => prevPetition.slice(0, -1))
+          return
+        }
         // delete last character in the answer
         setAnswer(prevAnswer => prevAnswer.slice(0, -1))
       }

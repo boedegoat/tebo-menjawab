@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 #__next {
-  @apply bg-black min-h-screen;
+  @apply min-h-screen bg-[rgb(58,0,0)];
+  background-image: url('/genderuwo.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: darken;
 }
 
 @layer components {
@@ -12,6 +17,10 @@
   }
 
   .input {
-    @apply px-3 py-2 bg-transparent text-white rounded-md focus:outline-none bg-gray-900 ring-2 ring-gray-700 focus:ring-blue-500;
+    @apply px-3 py-2 bg-transparent text-white rounded-md focus:outline-none bg-gray-900 ring-2 ring-gray-700 focus:ring-red-500;
+  }
+
+  .button {
+    @apply text-white bg-gray-800 hover:bg-gray-900 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500;
   }
 }
