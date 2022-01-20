@@ -7,16 +7,19 @@ export default function useTebo(petitionText) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [question, setQuestion] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
+  const petitionRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     formRef.current.addEventListener('submit', e => {
       e.preventDefault()
       setShowAnswer(true)
+      setAnswer(prevAnswer => prevAnswer.replace(/\./g, ''))
     })
+    petitionRef.current.focus()
   }, [])
 
   useEffect(() => {
-    if (!answerMode) return
+    if (!answerMode || answer.slice(-1) === '.') return
     console.clear()
     console.log({ jawaban: answer })
     setPetition(prevPetition => {
@@ -26,6 +29,7 @@ export default function useTebo(petitionText) {
       } else {
         newPetition = prevPetition.slice(0, -1)
       }
+
       return newPetition
     })
   }, [answer, answerMode])
@@ -33,18 +37,16 @@ export default function useTebo(petitionText) {
   const questionProps = {
     value: question,
     onChange: e => {
-      // if showAnswer true, freeze the inputs
-      if (showAnswer) return
       setQuestion(e.target.value)
     },
   }
 
   const petitionProps = {
     value: petition,
+    ref: petitionRef,
     onKeyDown: e => {
-      // if showAnswer true, freeze the inputs
-      if (showAnswer) return
       if (e.key === '.') {
+        setPetition(prevPetition => prevPetition + (petitionText[prevPetition.length] ?? ''))
         setAnswerMode(!answerMode)
       }
 
@@ -52,7 +54,7 @@ export default function useTebo(petitionText) {
       // if answerMode is true
 
       // if key is a character
-      if (e.key.length === 1 && e.key !== '.') {
+      if (e.key.length === 1) {
         // add it to the answer
         setAnswer(prevAnswer => prevAnswer + e.key)
       }
@@ -67,8 +69,6 @@ export default function useTebo(petitionText) {
       }
     },
     onChange: e => {
-      // if showAnswer true, freeze the inputs
-      if (showAnswer) return
       // if not in answerMode, set petition to exactly what user typed
       if (!answerMode) {
         setPetition(e.target.value.replace('.', ''))

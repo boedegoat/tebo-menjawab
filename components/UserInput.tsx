@@ -21,8 +21,20 @@ export default function UserInput() {
       <span className='text-gray-300 text-center text-sm sm:text-base'>
         Kata kunci : {petitionText}
       </span>
-      <input type='text' placeholder='Permintaan' className='input' {...props.petitionProps} />
-      <input type='text' placeholder='Pertanyaan' className='input' {...props.questionProps} />
+      <input
+        type='text'
+        placeholder='Permintaan'
+        className='input'
+        disabled={showAnswer}
+        {...props.petitionProps}
+      />
+      <input
+        type='text'
+        placeholder='Pertanyaan'
+        className='input'
+        disabled={showAnswer}
+        {...props.questionProps}
+      />
       {showAnswer ? (
         <>
           <p className='text-red-800 font-medium mt-4 bg-red-300 px-3 py-2 rounded-md'>
